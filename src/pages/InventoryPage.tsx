@@ -4,6 +4,7 @@ import { Inventaire } from "../interfaces/types";
 import InventoryForm from "../components/InventoryForm";
 import InventoryList from "../components/InventoryList";
 import { ClipboardList } from "lucide-react";
+import ExportButton from "../components/ExportButton";
 
 export default function InventoryPage() {
   const [inventaires, setInventaires] = useLocalStorage<Inventaire[]>(
@@ -46,6 +47,7 @@ export default function InventoryPage() {
                 Gestion des Inventaires
               </h1>
             </div>
+            <ExportButton inventaires={inventaires} />
           </div>
 
           <div className="grid grid-cols-12 gap-8">
