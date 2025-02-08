@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Inventaire } from '../interfaces/types';
-import { magasins, produits } from '../services/inventoryService';
+import { magasins, produits } from '../data/data';
 
 interface InventoryFormProps {
   onSubmit: (inventaire: Inventaire) => void;
@@ -8,7 +8,9 @@ interface InventoryFormProps {
 }
 
 export default function InventoryForm({ onSubmit, initialData }: InventoryFormProps) {
-  const [date, setDate] = useState(initialData?.date || new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState(
+    initialData?.date || new Date().toLocaleString().replace(", ", "T")
+  );  
   const [produitId, setProduitId] = useState(initialData?.produitId || '');
   const [stock, setStock] = useState<Record<string, number>>(
     initialData?.stock || Object.fromEntries(magasins.map(m => [m.id, 0]))
@@ -16,11 +18,24 @@ export default function InventoryForm({ onSubmit, initialData }: InventoryFormPr
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const filteredStock = Object.fromEntries(
+      Object.entries(stock).filter(([magasinId, quantity]) => quantity > 0)
+    );
+
+    if (Object.keys(filteredStock).length === 0) {
+      alert("Aucun stock n'a été ajouté. L'inventaire ne peut pas être enregistré.");
+      return;
+    }
     onSubmit({
       date,
       produitId,
-      stock
+      stock: filteredStock,
     });
+
+    setDate(new Date().toLocaleString().replace(", ", "T"));
+    setProduitId('');
+    setStock(Object.fromEntries(magasins.map(m => [m.id, 0])));
   };
 
   return (
@@ -28,7 +43,7 @@ export default function InventoryForm({ onSubmit, initialData }: InventoryFormPr
       <div>
         <label className="block text-sm font-medium text-gray-700">Date</label>
         <input
-          type="date"
+          type="text"
           value={date}
           onChange={(e) => setDate(e.target.value)}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
