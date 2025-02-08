@@ -1,6 +1,7 @@
 
 # Documentation pour cloner et lancer le projet evoSoftInventory
 
+![Capture d’écran de la page d'accueil](Capture%20d’écran%202025-02-08%20135331.png)
 ## Prérequis
 
 Avant de commencer, assurez-vous d'avoir installé les outils suivants sur votre machine :
@@ -52,4 +53,5 @@ Après avoir lancé le projet, vous devriez voir un message dans votre terminal 
 ```
 http://localhost:5173
 ```
+
 
