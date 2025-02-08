@@ -1,11 +1,8 @@
-import React from 'react'
+import React from 'react';
+import InventoryPage from './pages/InventoryPage';
 
 function App() {
-  return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <p>Start prompting (or editing) to see magic happen :)</p>
-    </div>
-  )
+  return <InventoryPage />;
 }
 
-export default App
+export default App;
